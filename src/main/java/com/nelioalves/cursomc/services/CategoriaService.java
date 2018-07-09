@@ -10,6 +10,8 @@ import com.nelioalves.cursomc.repositories.CategoriaRepository;
 
 @Service
 public class CategoriaService {
+	
+// CAMADA DE SERVIÇO (SÓ PARA CONSULTAS E REGRAS DE NEGÓCIOS QUE NÃO FORAM IMPLEMENTADAS NA CAMADA DE DOMÍNIO)
 
 	@Autowired
 	private CategoriaRepository repo;

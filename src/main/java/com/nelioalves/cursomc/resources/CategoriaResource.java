@@ -13,7 +13,9 @@ import com.nelioalves.cursomc.services.CategoriaService;
 @RestController
 @RequestMapping(value="/categorias") //http://localhost:8081/categorias
 public class CategoriaResource {
-
+	
+// CAMADA DE CONTROLE (GARÇOM)
+	
 	@Autowired
 	private CategoriaService service;
 	
