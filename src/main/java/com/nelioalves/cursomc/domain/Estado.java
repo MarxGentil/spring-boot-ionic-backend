@@ -8,62 +8,48 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Categoria implements Serializable {
-
-// CAMADA DE DOMÍNIO (REGRAS DE NEGÓCIOS)
-	
+public class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) // Geração de chave primária
 	private Integer id;
 	private String nome;
-
-	@JsonManagedReference // ação para permitir que produto e categoria não fiquem em loop na consulta
-	@ManyToMany(mappedBy="categorias") //categorias é o nome da lista que se encontra na classe Produto que é a classe que tem associação com Categoria e que já está mapeada como Muitos para Muitos
 	
-	private List<Produto> produtos = new ArrayList<>(); 
-	// onde produtos é o nome da ASSOCIAÇÃO e não o nome da classe ou da entidade
+	@OneToMany(mappedBy="estado") // onde estado é o atributo que foi mapeado na classe cidade (private Estado estado;)
+	//O Estado tem várias cidade, então é um lista
+	private List<Cidade> cidades = new ArrayList<>();
+	// cidades é o nome da associação
 	
-	public Categoria() { //Construtor Vazio
+	public Estado() {
 		
 	}
-
-	public Categoria(Integer id, String nome) { // Construtor que criei pelo java com os atributos
+	public Estado(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
 	}
-
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public List<Produto> getProdutos() {
-		return produtos;
+	public List<Cidade> getCidades() {
+		return cidades;
 	}
-
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setCidades(List<Cidade> cidades) {
+		this.cidades = cidades;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -71,7 +57,6 @@ public class Categoria implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -80,13 +65,14 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Estado other = (Estado) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
+	}
+	
 	
 }

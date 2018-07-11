@@ -1,43 +1,37 @@
 package com.nelioalves.cursomc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Categoria implements Serializable {
-
-// CAMADA DE DOMÍNIO (REGRAS DE NEGÓCIOS)
-	
+public class Cidade implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) // Geração de chave primária
 	private Integer id;
 	private String nome;
-
-	@JsonManagedReference // ação para permitir que produto e categoria não fiquem em loop na consulta
-	@ManyToMany(mappedBy="categorias") //categorias é o nome da lista que se encontra na classe Produto que é a classe que tem associação com Categoria e que já está mapeada como Muitos para Muitos
 	
-	private List<Produto> produtos = new ArrayList<>(); 
-	// onde produtos é o nome da ASSOCIAÇÃO e não o nome da classe ou da entidade
+	@ManyToOne // associação muitos para um já que a cidade pertencerá a apenas um estado.
+	@JoinColumn(name="estado_id") // ja que não é uma associação muitos para muitos, não precisaremos de uma nova tabela para associação.
+	//Uma cidade pertence apenas a um Estado, então basta apenas um objeto
+	private Estado estado; // estado será o nome da associação
 	
-	public Categoria() { //Construtor Vazio
+	public Cidade() {
 		
 	}
 
-	public Categoria(Integer id, String nome) { // Construtor que criei pelo java com os atributos
+	public Cidade(Integer id, String nome, Estado estado) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.estado = estado;
 	}
 
 	public Integer getId() {
@@ -56,14 +50,14 @@ public class Categoria implements Serializable {
 		this.nome = nome;
 	}
 
-	public List<Produto> getProdutos() {
-		return produtos;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -80,13 +74,12 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Cidade other = (Cidade) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
-	
+	}
 }
