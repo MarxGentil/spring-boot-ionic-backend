@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nelioalves.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -29,6 +30,7 @@ public class Cliente implements Serializable {
 	private Integer tipo;
 	
 	//No modelo, um cliente tem vários endereços
+	@JsonManagedReference
 	@OneToMany(mappedBy="cliente") // cliente é o nome do mapeamento da classe Endereco 	private Cliente cliente;
 	private List<Endereco> enderecos = new ArrayList<>();
 	
@@ -38,6 +40,10 @@ public class Cliente implements Serializable {
 	@CollectionTable(name="TELEFONE") //TELEFONE será o nome da tabela
 	private Set<String> telefones = new HashSet<>();
 
+	//os clientes tem um relacionamento bi-direcional com pedido. Um cliente pode fazer vários pedidos
+	@OneToMany(mappedBy="cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Cliente() {
 		
 	}
@@ -107,6 +113,14 @@ public class Cliente implements Serializable {
 		this.telefones = telefones;
 	}
 
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,8 +144,5 @@ public class Cliente implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	
-	
+	}	
 }
