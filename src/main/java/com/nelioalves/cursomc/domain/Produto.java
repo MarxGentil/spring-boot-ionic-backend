@@ -2,7 +2,9 @@ package com.nelioalves.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -29,10 +32,13 @@ public class Produto implements Serializable {
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 			joinColumns = @JoinColumn(name = "produto_id"),
 			inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-	// onde PRODUTO_CATEGORIA será o nome da nova tabela de associação e, produto_ie e catogoria_id serão as chaves estrangeiras
+	// onde PRODUTO_CATEGORIA será o nome da nova tabela de associação e, produto_id e catogoria_id serão as chaves estrangeiras
 	
 	private List<Categoria> categorias = new ArrayList<>(); 
 	// onde categorias é o nome da ASSOCIAÇÃO e não o nome da classe ou da entidade
+
+	@OneToMany(mappedBy="id.produto")
+	private Set<ItemPedido> itens = new HashSet<>(); //O Set é para que a própria linguagem Java nos ajude a não ter itens repetidos no mesmo pedido
 
 	public Produto(){		
 	}
@@ -44,6 +50,14 @@ public class Produto implements Serializable {
 		this.preco = preco;
 	}
 
+	public List<Pedido> getPedidos(){
+		List<Pedido> lista = new ArrayList<>();
+		for(ItemPedido x : itens) {
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -76,6 +90,14 @@ public class Produto implements Serializable {
 		this.categorias = categorias;
 	}
 
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,7 +122,6 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
-	
 	
 	
 }
