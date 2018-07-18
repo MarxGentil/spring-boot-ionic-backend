@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Categoria implements Serializable {
 
@@ -24,7 +22,6 @@ public class Categoria implements Serializable {
 	private Integer id;
 	private String nome;
 
-	@JsonManagedReference // ação para permitir que produto e categoria não fiquem em loop na consulta
 	@ManyToMany(mappedBy="categorias") //categorias é o nome da lista que se encontra na classe Produto que é a classe que tem associação com Categoria e que já está mapeada como Muitos para Muitos
 	private List<Produto> produtos = new ArrayList<>(); 
 	// onde produtos é o nome da ASSOCIAÇÃO e não o nome da classe ou da entidade
