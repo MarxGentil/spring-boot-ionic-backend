@@ -27,4 +27,10 @@ public class CategoriaService {
 		obj.setId(null); //o método setId vai garantir que o novo objeto seja novo, caso contrário entenderá que é uma atualização
 		return repo.save(obj);
 	}
+	
+	public Categoria update(Categoria obj) {
+		find(obj.getId()); // chama o método find para verificar se o objeto de fato existe.
+		return repo.save(obj);
+	}
+	
 }
