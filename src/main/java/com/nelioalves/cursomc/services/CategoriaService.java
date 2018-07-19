@@ -21,16 +21,10 @@ public class CategoriaService {
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException (
 		"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
-	}	
-	/*
-	public Categoria find(Integer id) {
-
-		Optional<Categoria> obj = repo.findById(id);
-
-		return obj.orElseThrow(() -> new ObjectNotFoundException(
-
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
-
 	}
-	*/
+	
+	public Categoria insert(Categoria obj) {
+		obj.setId(null); //o método setId vai garantir que o novo objeto seja novo, caso contrário entenderá que é uma atualização
+		return repo.save(obj);
+	}
 }
