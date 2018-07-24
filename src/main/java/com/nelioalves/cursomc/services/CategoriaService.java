@@ -36,8 +36,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Categoria obj) {
-		find(obj.getId()); // chama o método find para verificar se o objeto de fato existe.
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId()); // chama o método find para verificar se o objeto de fato existe.
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	//DataIntegrityViolationException este é o erro que dá no SpringData quando tem objetos dependentes
@@ -62,6 +63,10 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 	
 }
