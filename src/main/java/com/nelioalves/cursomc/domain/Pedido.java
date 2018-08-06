@@ -1,8 +1,11 @@
 package com.nelioalves.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,29 +25,31 @@ public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY) // Geração de chave primária
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Geração de chave primária
 	private Integer id;
-	
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 
 	// associação de um pagamento para cada pedido
-	@OneToOne(cascade=CascadeType.ALL, mappedBy="pedido") // pedido é o nome do mapeamento na classe Pagamento
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido") // pedido é o nome do mapeamento na classe Pagamento
 	private Pagamento pagamento;
-	
+
 	// um pedido tem um cliente
 	@ManyToOne
-	@JoinColumn(name="cliente_id") // cliente_id é a chave estrangeira de Cliente na tabela Pedido
+	@JoinColumn(name = "cliente_id") // cliente_id é a chave estrangeira de Cliente na tabela Pedido
 	private Cliente cliente;
-	
+
 	// um pedido tem um endereço de entrega
 	@ManyToOne
-	@JoinColumn(name="endereco_de_entrega_id") // endereco_de_entrega_id é a chave estrangeira de Endereco na tabela Pedido
+	@JoinColumn(name = "endereco_de_entrega_id") // endereco_de_entrega_id é a chave estrangeira de Endereco na tabela
+													// Pedido
 	private Endereco enderecoDeEntrega;
 
-	@OneToMany(mappedBy="id.pedido")
-	private Set<ItemPedido> itens = new HashSet<>(); //O Set é para que a própria linguagem Java nos ajude a não ter itens repetidos no mesmo pedido
-	
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>(); // O Set é para que a própria linguagem Java nos ajude a não ter
+														// itens repetidos no mesmo pedido
+
 	public Pedido() {
 	}
 
@@ -58,12 +63,12 @@ public class Pedido implements Serializable {
 
 	public double getValorTotal() {
 		double soma = 0.0;
-		for(ItemPedido ip : itens) {
+		for (ItemPedido ip : itens) {
 			soma = soma + ip.getSubTotal();
 		}
 		return soma;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -135,7 +140,29 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
+	}
 
-	
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido número: ");
+		builder.append(getId());
+		builder.append(", instante: ");
+		builder.append(sdf.format(getInstante()));
+		builder.append(", cliente: ");
+		builder.append(getCliente().getNome());
+		builder.append(", Situação do pagamento: ");
+		builder.append(getPagamento().getEstado().getDescricao());
+		builder.append("\nDetalhes:\n");
+		for (ItemPedido ip : getItens()) {
+			builder.append(ip.toString());
+		}
+
+		builder.append("Valor total: ");
+		builder.append(nf.format(getValorTotal()));
+		return builder.toString();
+	}
+
 }

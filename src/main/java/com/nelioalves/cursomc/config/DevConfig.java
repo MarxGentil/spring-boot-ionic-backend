@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.nelioalves.cursomc.services.DBService;
 
+
 @Configuration
 @Profile("dev") // todos os beans serão rodados só quando o profile test estiver ativo a partir do application.properties
 public class DevConfig {
@@ -19,11 +20,11 @@ public class DevConfig {
 	
 	@Value("$(spring.jpa.hibernate.ddl-auto)")
 	private String strategy;
-	
+
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
 		
-		if(!"create".equals(strategy)) {
+		if (!"create".equals(strategy)) { 
 			return false;
 		}
 		

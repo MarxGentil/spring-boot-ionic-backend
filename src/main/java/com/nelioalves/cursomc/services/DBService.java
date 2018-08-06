@@ -1,67 +1,76 @@
 package com.nelioalves.cursomc.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.text.ParseException; 
+import java.text.SimpleDateFormat; 
+import java.util.Arrays; 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired; 
+import org.springframework.stereotype.Service; 
+import com.nelioalves.cursomc.domain.Categoria; 
+import com.nelioalves.cursomc.domain.Cidade; 
+import com.nelioalves.cursomc.domain.Cliente; 
+import com.nelioalves.cursomc.domain.Endereco; 
+import com.nelioalves.cursomc.domain.Estado; 
+import com.nelioalves.cursomc.domain.ItemPedido; 
+import com.nelioalves.cursomc.domain.Pagamento; 
+import com.nelioalves.cursomc.domain.PagamentoComBoleto; 
+import com.nelioalves.cursomc.domain.PagamentoComCartao; 
+import com.nelioalves.cursomc.domain.Pedido; 
+import com.nelioalves.cursomc.domain.Produto; 
+import com.nelioalves.cursomc.domain.enums.EstadoPagamento; 
+import com.nelioalves.cursomc.domain.enums.TipoCliente; 
+import com.nelioalves.cursomc.repositories.CategoriaRepository; 
+import com.nelioalves.cursomc.repositories.CidadeRepository; 
+import com.nelioalves.cursomc.repositories.ClienteRepository; 
+import com.nelioalves.cursomc.repositories.EnderecoRepository; 
+import com.nelioalves.cursomc.repositories.EstadoRepository; 
+import com.nelioalves.cursomc.repositories.ItemPedidoRepository; 
+import com.nelioalves.cursomc.repositories.PagamentoRepository; 
+import com.nelioalves.cursomc.repositories.PedidoRepository; 
+import com.nelioalves.cursomc.repositories.ProdutoRepository; 
+ 
 
-import com.nelioalves.cursomc.domain.Categoria;
-import com.nelioalves.cursomc.domain.Cidade;
-import com.nelioalves.cursomc.domain.Cliente;
-import com.nelioalves.cursomc.domain.Endereco;
-import com.nelioalves.cursomc.domain.Estado;
-import com.nelioalves.cursomc.domain.ItemPedido;
-import com.nelioalves.cursomc.domain.Pagamento;
-import com.nelioalves.cursomc.domain.PagamentoComBoleto;
-import com.nelioalves.cursomc.domain.PagamentoComCartao;
-import com.nelioalves.cursomc.domain.Pedido;
-import com.nelioalves.cursomc.domain.Produto;
-import com.nelioalves.cursomc.domain.enums.EstadoPagamento;
-import com.nelioalves.cursomc.domain.enums.TipoCliente;
-import com.nelioalves.cursomc.repositories.CategoriaRepository;
-import com.nelioalves.cursomc.repositories.CidadeRepository;
-import com.nelioalves.cursomc.repositories.ClienteRepository;
-import com.nelioalves.cursomc.repositories.EnderecoRepository;
-import com.nelioalves.cursomc.repositories.EstadoRepository;
-import com.nelioalves.cursomc.repositories.ItemPedidoRepository;
-import com.nelioalves.cursomc.repositories.PagamentoRepository;
-import com.nelioalves.cursomc.repositories.PedidoRepository;
-import com.nelioalves.cursomc.repositories.ProdutoRepository;
 
-@Service
-public class DBService {
+@Service 
+public class DBService { 
 
-	@Autowired
-	private CategoriaRepository categoriaRepository;
-	@Autowired
-	private ProdutoRepository produtoRepository;
-	@Autowired
-	private EstadoRepository estadoRepository;
-	@Autowired
-	private CidadeRepository cidadeRepository;
-	@Autowired
-	private ClienteRepository clienteRepository;
-	@Autowired
-	private EnderecoRepository enderecoRepository;
-	@Autowired
-	private PedidoRepository pedidoRepository;
-	@Autowired
-	private PagamentoRepository pagamentoRepository;
-	@Autowired
-	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired 
+	private CategoriaRepository categoriaRepository; 
+
+	@Autowired 
+	private ProdutoRepository produtoRepository; 
+
+	@Autowired 
+	private EstadoRepository estadoRepository; 
+
+	@Autowired 
+	private CidadeRepository cidadeRepository; 
+
+	@Autowired 
+	private ClienteRepository clienteRepository; 
+
+	@Autowired 
+	private EnderecoRepository enderecoRepository; 
+
+	@Autowired 
+	private PedidoRepository pedidoRepository; 
+
+	@Autowired 
+	private PagamentoRepository pagamentoRepository; 
+
+	@Autowired 
+	private ItemPedidoRepository itemPedidoRepository; 
 
 	public void instantiateTestDatabase() throws ParseException {
 		
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
-		Categoria cat3 = new Categoria(null, "Cama, Mesa e Banho");
+		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
 		Categoria cat4 = new Categoria(null, "Eletrônicos");
 		Categoria cat5 = new Categoria(null, "Jardinagem");
 		Categoria cat6 = new Categoria(null, "Decoração");
 		Categoria cat7 = new Categoria(null, "Perfumaria");
-
+		
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
@@ -73,7 +82,7 @@ public class DBService {
 		Produto p9 = new Produto(null, "Abajour", 100.00);
 		Produto p10 = new Produto(null, "Pendente", 180.00);
 		Produto p11 = new Produto(null, "Shampoo", 90.00);
-
+		
 		// getProdutos nada mais é que uma lista chamada produtos da classe Categoria
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2, p4));
@@ -83,6 +92,7 @@ public class DBService {
 		cat6.getProdutos().addAll(Arrays.asList(p9, p10));
 		cat7.getProdutos().addAll(Arrays.asList(p11));
 		// Aqui, fizemos a associação na tabela categoria e seus produtos.
+
 		// Agora faremos o contrário, os produtos nas suas categorias.
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat4));
