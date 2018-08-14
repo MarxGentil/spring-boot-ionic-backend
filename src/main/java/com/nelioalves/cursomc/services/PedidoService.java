@@ -78,7 +78,8 @@ public class PedidoService {
 
 		itemPedidoRepository.saveAll(obj.getItens());
 		
-		emailService.sendOrderConfirmationEmail(obj);
+//		emailService.sendOrderConfirmationEmail(obj); este método é para o email plano
+		emailService.sendOrderConfirmationHtmlEmail(obj);
 		
 		return obj;
 
