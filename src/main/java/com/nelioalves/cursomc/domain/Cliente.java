@@ -30,9 +30,11 @@ public class Cliente implements Serializable {
 	
 	@Column(unique=true)
 	private String email;
-
 	private String cpfOucnpj;
 	private Integer tipo;
+
+	@JsonIgnore     //JasonIgnore aqui é para não mostrar o BCripty do campo senha ao recuperar os dados no sistema.
+	private String senha;
 	
 	//No modelo, um cliente tem vários endereços
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL) // cliente é o nome do mapeamento da classe Endereco 	private Cliente cliente;
@@ -53,13 +55,14 @@ public class Cliente implements Serializable {
 		
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOucnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOucnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOucnpj = cpfOucnpj;
 		this.tipo = (tipo==null) ? null : tipo.getCod();
+		this.senha = senha;
 	}
 
 	public Integer getid() {
@@ -102,6 +105,14 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCod();
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}	
+	
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -149,5 +160,5 @@ public class Cliente implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
+	}
 }

@@ -1,38 +1,43 @@
 package com.nelioalves.cursomc.services;
 
-import java.text.ParseException; 
-import java.text.SimpleDateFormat; 
-import java.util.Arrays; 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired; 
-import org.springframework.stereotype.Service; 
-import com.nelioalves.cursomc.domain.Categoria; 
-import com.nelioalves.cursomc.domain.Cidade; 
-import com.nelioalves.cursomc.domain.Cliente; 
-import com.nelioalves.cursomc.domain.Endereco; 
-import com.nelioalves.cursomc.domain.Estado; 
-import com.nelioalves.cursomc.domain.ItemPedido; 
-import com.nelioalves.cursomc.domain.Pagamento; 
-import com.nelioalves.cursomc.domain.PagamentoComBoleto; 
-import com.nelioalves.cursomc.domain.PagamentoComCartao; 
-import com.nelioalves.cursomc.domain.Pedido; 
-import com.nelioalves.cursomc.domain.Produto; 
-import com.nelioalves.cursomc.domain.enums.EstadoPagamento; 
-import com.nelioalves.cursomc.domain.enums.TipoCliente; 
-import com.nelioalves.cursomc.repositories.CategoriaRepository; 
-import com.nelioalves.cursomc.repositories.CidadeRepository; 
-import com.nelioalves.cursomc.repositories.ClienteRepository; 
-import com.nelioalves.cursomc.repositories.EnderecoRepository; 
-import com.nelioalves.cursomc.repositories.EstadoRepository; 
-import com.nelioalves.cursomc.repositories.ItemPedidoRepository; 
-import com.nelioalves.cursomc.repositories.PagamentoRepository; 
-import com.nelioalves.cursomc.repositories.PedidoRepository; 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.domain.Cidade;
+import com.nelioalves.cursomc.domain.Cliente;
+import com.nelioalves.cursomc.domain.Endereco;
+import com.nelioalves.cursomc.domain.Estado;
+import com.nelioalves.cursomc.domain.ItemPedido;
+import com.nelioalves.cursomc.domain.Pagamento;
+import com.nelioalves.cursomc.domain.PagamentoComBoleto;
+import com.nelioalves.cursomc.domain.PagamentoComCartao;
+import com.nelioalves.cursomc.domain.Pedido;
+import com.nelioalves.cursomc.domain.Produto;
+import com.nelioalves.cursomc.domain.enums.EstadoPagamento;
+import com.nelioalves.cursomc.domain.enums.TipoCliente;
+import com.nelioalves.cursomc.repositories.CategoriaRepository;
+import com.nelioalves.cursomc.repositories.CidadeRepository;
+import com.nelioalves.cursomc.repositories.ClienteRepository;
+import com.nelioalves.cursomc.repositories.EnderecoRepository;
+import com.nelioalves.cursomc.repositories.EstadoRepository;
+import com.nelioalves.cursomc.repositories.ItemPedidoRepository;
+import com.nelioalves.cursomc.repositories.PagamentoRepository;
+import com.nelioalves.cursomc.repositories.PedidoRepository;
 import com.nelioalves.cursomc.repositories.ProdutoRepository; 
  
 
 
 @Service 
 public class DBService { 
+
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	@Autowired 
 	private CategoriaRepository categoriaRepository; 
@@ -123,7 +128,7 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "marxgentil@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "marxgentil@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
