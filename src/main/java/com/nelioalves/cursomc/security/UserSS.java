@@ -69,4 +69,8 @@ public class UserSS implements UserDetails {
 		return true; // por padrão o usuário está ativo (pordemos incluir aqui dentro a lógica que quiser para ativação de usuário)
 	}
 
+	public boolean hasRole(Perfil perfil) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
+	
 }
