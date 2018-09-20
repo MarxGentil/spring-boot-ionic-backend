@@ -59,8 +59,6 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
-	private String imageUrl;
-	
 	public Cliente() {
 		addPerfil(Perfil.CLIENTE); // por padrão, todos os clientes criados receberão o pefil de cliente.
 	}
@@ -181,11 +179,4 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
 }
